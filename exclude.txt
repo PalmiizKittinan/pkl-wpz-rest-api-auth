@@ -60,3 +60,4 @@ phpunit.xml
 # Documentation (ถ้าไม่ต้องการอัพโหลด)
 # docs/
 README.md
+AGENTS.md
