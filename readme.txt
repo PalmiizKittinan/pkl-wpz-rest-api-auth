@@ -2,9 +2,9 @@
 Contributors: kittlam
 Tags: rest-api, authentication, api-key, security
 Requires at least: 5.0
-Tested up to: 6.8
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,9 @@ Yes, you can revoke your API key from your profile page by clicking the "Revoke 
 Yes, the plugin follows WordPress security best practices and stores API keys securely in the database.
 
 == Changelog ==
+
+= 1.2.0 =
+Add WordPress 7.x compatibility
 
 = 1.1.0 =
 Change database table schema _id -> UUID()
