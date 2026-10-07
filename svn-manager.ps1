@@ -10,7 +10,18 @@ $ScriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
 $GIT_DIR = $ScriptPath
 $ParentDir = Split-Path -Parent $GIT_DIR
 $GitFolderName = Split-Path -Leaf $GIT_DIR
-$SVNFolderName = $GitFolderName -replace '-github$', '-svn'
+
+if ($GitFolderName -match '-github$') {
+    # Convention: <plugin>-github/ + <plugin>-svn/ as siblings
+    $SVNFolderName = $GitFolderName -replace '-github$', '-svn'
+} elseif (Test-Path (Join-Path $ParentDir "svn")) {
+    # Convention: <plugin>/ (this repo) + svn/ as siblings
+    $SVNFolderName = "svn"
+} else {
+    # Fallback: assume <plugin>-svn/ next to this repo
+    $SVNFolderName = "$GitFolderName-svn"
+}
+
 $SVN_DIR = Join-Path $ParentDir $SVNFolderName
 $SVN_TRUNK = Join-Path $SVN_DIR "trunk"
 $EXCLUDE_FILE = Join-Path $GIT_DIR "exclude.txt"
@@ -497,8 +508,8 @@ function Show-Tags {
         return
     }
 
-    # ดึง plugin slug จากชื่อ folder
-    $pluginSlug = (Get-Item $SVN_DIR).Name.Replace('-svn', '')
+    # ดึง plugin slug จากชื่อ Git folder (ไม่ใช่ SVN folder เพราะอาจชื่อแค่ "svn")
+    $pluginSlug = $GitFolderName -replace '-github$', ''
     $repoUrl = "https://plugins.svn.wordpress.org/$pluginSlug"
 
     # ดึง tags จาก local
