@@ -134,54 +134,29 @@ class PKL_WPZ_REST_API_Auth
     }
 
     /**
-     * Check if API key authentication is provided
+     * Check if Bearer token authentication is provided
      */
     private function check_api_key_auth()
     {
         $api_key = '';
+        $auth_header = '';
 
-        // Method 1: Check in form-data
-        // phpcs:ignore WordPress.Security.NonceVerification.Missing
-        if (isset($_POST['api_key']) && !empty($_POST['api_key'])) {
-            // Sanitize but preserve case - only remove dangerous characters
-            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Missing
-            $raw_key = wp_unslash($_POST['api_key']);
-            // Remove any control characters and null bytes, but preserve case
-            $api_key = preg_replace('/[\x00-\x1F\x7F]/u', '', $raw_key);
-        }
-
-        // Method 2 & 4: Check in headers (X-API-Key and Authorization Bearer)
-        if (empty($api_key)) {
-            $headers = getallheaders();
-            if (is_array($headers)) {
-                // Method 2: X-API-Key header
-                if (isset($headers['X-API-Key'])) {
-                    $api_key = $this->sanitize_api_key($headers['X-API-Key']);
-                } elseif (isset($headers['x-api-key'])) {
-                    $api_key = $this->sanitize_api_key($headers['x-api-key']);
-                } // Method 4: Authorization Bearer header
-                elseif (isset($headers['Authorization'])) {
-                    $auth_header = $headers['Authorization'];
-                    if (strpos($auth_header, 'Bearer ') === 0) {
-                        $api_key = $this->sanitize_api_key(substr($auth_header, 7)); // Remove "Bearer " prefix
-                    }
-                } elseif (isset($headers['authorization'])) {
-                    $auth_header = $headers['authorization'];
-                    if (strpos($auth_header, 'Bearer ') === 0) {
-                        $api_key = $this->sanitize_api_key(substr($auth_header, 7)); // Remove "Bearer " prefix
-                    }
-                }
+        // Authorization: Bearer <token> is the only supported method
+        if (!empty($_SERVER['HTTP_AUTHORIZATION'])) {
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+            $auth_header = wp_unslash($_SERVER['HTTP_AUTHORIZATION']);
+        } elseif (!empty($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+            $auth_header = wp_unslash($_SERVER['REDIRECT_HTTP_AUTHORIZATION']);
+        } elseif (function_exists('getallheaders')) {
+            $headers = array_change_key_case((array)getallheaders(), CASE_LOWER);
+            if (isset($headers['authorization'])) {
+                $auth_header = $headers['authorization'];
             }
         }
 
-        // Method 3: Check in query parameters
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        if (empty($api_key) && isset($_GET['api_key'])) {
-            // Sanitize but preserve case
-            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
-            $raw_key = wp_unslash($_GET['api_key']);
-            // Remove any control characters and null bytes, but preserve case
-            $api_key = preg_replace('/[\x00-\x1F\x7F]/u', '', $raw_key);
+        if (is_string($auth_header) && stripos($auth_header, 'Bearer ') === 0) {
+            $api_key = $this->sanitize_api_key(substr($auth_header, 7)); // Remove "Bearer " prefix
         }
 
         if (!empty($api_key)) {

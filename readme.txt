@@ -22,7 +22,7 @@ Features:
 * Support for Bearer token authentication
 * API key revocation capability
 * Admin can manage all users' API keys
-* Multiple authentication methods (Bearer Token, X-API-Key Header, Form-data, Query Parameter)
+* Bearer token is the only supported authentication method
 
 == Installation ==
 
@@ -42,11 +42,7 @@ Features:
 
 = How do I use the API key? =
 
-You can use the API key in multiple ways:
-- Authorization Bearer Token (Recommended): `Authorization: Bearer YOUR_API_KEY`
-- X-API-Key Header: `X-API-Key: YOUR_API_KEY`
-- Form-data: Include `api_key` parameter
-- Query Parameter: `?api_key=YOUR_API_KEY`
+Send it as a Bearer token in the Authorization header (the only supported method): `Authorization: Bearer YOUR_API_KEY`
 
 = Can I revoke an API key? =
 
@@ -57,6 +53,9 @@ Yes, you can revoke your API key from your profile page by clicking the "Revoke 
 Yes, the plugin follows WordPress security best practices and stores API keys securely in the database.
 
 == Changelog ==
+
+= Unreleased =
+Bearer token is now the only supported authentication method. X-API-Key header, form-data and query parameter removed.
 
 = 1.2.1 =
 Confirm compatibility with WordPress 7.1

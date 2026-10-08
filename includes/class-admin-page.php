@@ -493,31 +493,9 @@ class PKL_WPZ_REST_API_Auth_Admin_Page
 
             <div class="pklwpz-guide-box">
                 <h3><?php esc_html_e('🚀 Step 2: Use API Key', 'pkl-wpz-rest-api-auth'); ?></h3>
-                <p><?php esc_html_e('Include your API key in REST API requests using one of these methods:', 'pkl-wpz-rest-api-auth'); ?></p>
+                <p><?php esc_html_e('Include your API key in the Authorization header as a Bearer token:', 'pkl-wpz-rest-api-auth'); ?></p>
 
-                <h4><?php esc_html_e('Method 1: Form-data', 'pkl-wpz-rest-api-auth'); ?></h4>
-                <div class="pklwpz-code-block">
-                    <strong>POST</strong> <?php echo esc_html(get_site_url()); ?>/wp-json/wp/v2/posts
-                    <br><br>
-                    <strong><?php esc_html_e('Form-data:', 'pkl-wpz-rest-api-auth'); ?></strong>
-                    <pre>api_key: pkl_wpz_abcd1234...
-title: Test Post
-content: Post content here
-status: draft</pre>
-                </div>
-
-                <h4><?php esc_html_e('Method 2: Header X-API-Key', 'pkl-wpz-rest-api-auth'); ?></h4>
-                <div class="pklwpz-code-block">
-                    <strong><?php esc_html_e('Headers:', 'pkl-wpz-rest-api-auth'); ?></strong>
-                    <pre>X-API-Key: pkl_wpz_abcd1234...</pre>
-                </div>
-
-                <h4><?php esc_html_e('Method 3: Query Parameter', 'pkl-wpz-rest-api-auth'); ?></h4>
-                <div class="pklwpz-code-block">
-                    <strong>GET</strong> <?php echo esc_html(get_site_url()); ?>/wp-json/wp/v2/posts?api_key=pkl_wpz_abcd1234...
-                </div>
-
-                <h4><?php esc_html_e('Method 4: Authorization Bearer Token (Recommended)', 'pkl-wpz-rest-api-auth'); ?></h4>
+                <h4><?php esc_html_e('Authorization Bearer Token', 'pkl-wpz-rest-api-auth'); ?></h4>
                 <div class="pklwpz-code-block">
                     <strong><?php esc_html_e('Headers:', 'pkl-wpz-rest-api-auth'); ?></strong>
                     <pre>Authorization: Bearer pkl_wpz_abcd1234...</pre>
@@ -556,10 +534,7 @@ status: draft</pre>
             <div class="notice notice-info inline">
                 <p><strong><?php esc_html_e('Security Note:', 'pkl-wpz-rest-api-auth'); ?></strong></p>
                 <ul>
-                    <li><?php esc_html_e('🥇 Authorization Bearer Token (Most Secure & Standard)', 'pkl-wpz-rest-api-auth'); ?></li>
-                    <li><?php esc_html_e('🥈 X-API-Key Header (Secure)', 'pkl-wpz-rest-api-auth'); ?></li>
-                    <li><?php esc_html_e('🥉 Form-data (Good for testing)', 'pkl-wpz-rest-api-auth'); ?></li>
-                    <li><?php esc_html_e('🚫 Query Parameter (Development only - not recommended for production)', 'pkl-wpz-rest-api-auth'); ?></li>
+                    <li><?php esc_html_e('Only the Authorization Bearer Token method is supported', 'pkl-wpz-rest-api-auth'); ?></li>
                     <li><?php esc_html_e('Keep your API key secure and do not share it', 'pkl-wpz-rest-api-auth'); ?></li>
                     <li><?php esc_html_e('⚠️ API keys are case-sensitive - copy them exactly', 'pkl-wpz-rest-api-auth'); ?></li>
                 </ul>

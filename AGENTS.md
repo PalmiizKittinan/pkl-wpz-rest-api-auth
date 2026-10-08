@@ -4,7 +4,7 @@ Guidance for AI coding agents working in this repository.
 
 ## Project
 
-WordPress plugin: **PKL WPz REST API Authentication** — adds API-key / Bearer-token
+WordPress plugin: **PKL WPz REST API Authentication** — adds Bearer-token (API key)
 authentication in front of the WordPress REST API. Single-plugin repo, no build step,
 no package manager. Plain PHP, WordPress Plugin API conventions throughout.
 
@@ -61,11 +61,15 @@ WordPress.org reads `Stable tag` from `readme.txt`, not the plugin header.
   the security implications
 - No Composer, no npm, no autoloader — classes are required directly from the
   bootstrap file; keep new files wired up the same way
+- Bearer token (`Authorization: Bearer`) is the only auth method. Do not re-add
+  `X-API-Key`, form-data or query-parameter auth; keep docs in `README.md`, `readme.txt`
+  and the admin API Guide tab consistent
 - Target PHP 7.4+ (`Requires PHP` header) — avoid syntax newer than that
 
 ## Testing changes
 
 There is no automated test suite. Verify changes manually against a local WordPress
 install: activate the plugin, generate an API key from a user profile, and exercise
-the REST API with each auth method (Bearer token, `X-API-Key` header, form-data,
-query parameter) described in `README.md`.
+the REST API with `Authorization: Bearer <key>` as described in `README.md`. Bearer is
+the only supported method: also confirm `X-API-Key`, form-data `api_key` and `?api_key=`
+are rejected (401).

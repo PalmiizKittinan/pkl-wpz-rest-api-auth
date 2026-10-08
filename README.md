@@ -15,7 +15,7 @@ WordPress site programmatically.
 ## ✨ Features
 
 - 🔒 **Secure Token-based Authentication** - OAuth-style access tokens
-- 🛡️ **Multiple Authentication Methods** - Form-data, Headers, Bearer Token, Query Parameters
+- 🛡️ **Bearer Token Only** - `Authorization: Bearer <token>` is the sole supported method
 - 👥 **User Management** - Admin interface to manage all access tokens
 - 🔄 **Token Management** - Revoke, restore, or delete tokens
 - 📊 **Admin Dashboard** - View all active and revoked tokens
@@ -62,47 +62,15 @@ Go to **Settings → PKL REST API Auth** to:
 
 # 🎯 REST API Quick Start Guide
 
-## 📋 Authentication Method Comparison
+## 📋 Authentication Method
 
-| Method              | Security | Use Case      | Pros                  | Cons          |
-|---------------------|----------|---------------|-----------------------|---------------|
-| **Bearer Token**    | Highest  | Production    | HTTP Standard, Secure | May be logged |
-| **Custom Header**   | High     | Internal APIs | Explicit, Clear       | Non-standard  |
-| **Form-data**       | Good     | Testing/Files | Easy testing          | Not standard  |
-| **Query Parameter** | 🚫 Low   | Development   | Simple                | Security risk |
+Only **Bearer Token** is supported. `X-API-Key` header, form-data `api_key` and `?api_key=` query parameter are rejected.
 
 ### Example
 
-#### ✅ Method 1: Authorization Bearer (Recommended for Production)
-
 ```text
 GET /wp-json/wp/v2/posts
-Authorization:Bearer pkl_wpz_abcd1234...
-```
-
-#### 🚀 Method 2: Form-data (Recommended for Testing)
-
-```text
-POST /wp-json/wp/v2/posts
-Content-Type: multipart/form-data
-
-api_key: pkl_wpz_abcd1234...
-title: Test Post
-content: Post content here
-status: draft
-```
-
-#### Method 3: Custom Header
-
-```text
-GET /wp-json/wp/v2/posts
-X-API-Key: pkl_wpz_abcd1234...
-```
-
-#### 🚨 Method 4: Query Parameter (Development Only)
-
-```text
-GET /wp-json/wp/v2/posts?api_key=pkl_wpz_abcd1234...
+Authorization: Bearer pkl_wpz_abcd1234...
 ```
 
 # 🌐 API Reference
@@ -115,30 +83,10 @@ GET /wp-json/wp/v2/posts?api_key=pkl_wpz_abcd1234...
     - Create an API key under `Users > Profile > REST API Access`.
 
 2. 🚀 **Use API Key**
-    - **You can include your API key in requests using one of the following methods:**
-
-- Method 1: **Bearer Token (Recommended)**
-  ```text
-  Authorization: Bearer <your_api_key>
-  ```
-
-- Method 2: **Header API Key**
-  ```text
-  X-API-Key: <your_api_key>
-  ```
-
-- Method 3: **Form-data**
-  ```text
-  api_key: <your_api_key>
-  title: Test Post
-  content: Post content here
-  status: publish | draft | pending | private | future
-  ```
-
-- Method 4: **Query Parameter**
-  ```text
-  ?api_key=<your_api_key>
-  ```
+    - Send the API key as a Bearer token in the `Authorization` header:
+      ```text
+      Authorization: Bearer <your_api_key>
+      ```
 
 ### 🎯 Example: JSON Request Body
 
