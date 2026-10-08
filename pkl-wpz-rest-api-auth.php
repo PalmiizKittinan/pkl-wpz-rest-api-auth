@@ -3,7 +3,7 @@
  * Plugin Name: PKL WPz REST API Authentication
  * Plugin URI: https://github.com/PalmiizKittinan/pkl-wpz-rest-api-auth
  * Description: Control WordPress REST API access by requiring user authentication with API key system.
- * Version: 1.2.1
+ * Version: 1.3.0
  * Author: Kittinan Lamkaek
  * Author URI: https://profiles.wordpress.org/kittlam/
  * License: GPL v2 or later
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define( 'PKL_WPZ_REST_API_AUTH_VERSION', '1.2.1' );
+define( 'PKL_WPZ_REST_API_AUTH_VERSION', '1.3.0' );
 define('PKL_WPZ_REST_API_AUTH_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('PKL_WPZ_REST_API_AUTH_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('PKL_WPZ_REST_API_AUTH_PLUGIN_BASENAME', plugin_basename(__FILE__));
