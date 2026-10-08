@@ -54,7 +54,7 @@ Yes, the plugin follows WordPress security best practices and stores API keys se
 
 == Changelog ==
 
-= Unreleased =
+= 1.3.0 =
 Bearer token is now the only supported authentication method. X-API-Key header, form-data and query parameter removed.
 
 = 1.2.1 =
